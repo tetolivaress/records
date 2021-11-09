@@ -1,7 +1,19 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
+
+const rootReducer = combineReducers({
+  records: {
+    
+  }
+});
 
 const store = configureStore({
   reducer: {
+    hideLoading: (state) => {
+      state.loading = false
+    },
+    showLoading: (state) => {
+      state.loading = true
+    },
   },
 })
 
