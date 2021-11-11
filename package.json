@@ -38,6 +38,7 @@
     "react-redux": "^7.2.4",
     "react-redux-firebase": "^3.10.0",
     "redux": "^4.1.0",
+    "redux-firestore": "^0.15.0",
     "redux-persist": "^6.0.0",
     "tailwind-react-native-classnames": "^1.2.1",
     "yup": "^0.32.9"
