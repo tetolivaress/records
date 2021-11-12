@@ -2,10 +2,18 @@ import React, { useState, useEffect } from "react";
 import { Text, TouchableOpacity, View, StyleSheet, PermissionsAndroid, Alert } from "react-native";
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import { useNavigation } from '@react-navigation/native';
+import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 
-
+import { useStoreSelector, useStoreDispatch } from '../store'
+import {hideLoading, showLoading } from '../store/reducers/loadingReducer'
+import { fetchRecords } from '../store/reducers/recordsReducer'
 
 const HomeScreen = () => {
+
+  const loading = useStoreSelector(( store ) => store.loading.loading)
+
+  const dispatch = useStoreDispatch();
+
   const navigator = useNavigation();
   const [player, setPlayer] = useState({});
   const [audio, setAudio] = useState({});
@@ -85,7 +93,21 @@ const HomeScreen = () => {
       >
         <Text style={{textAlign: 'center', color: 'white'}}>PLAY</Text>
       </TouchableOpacity>
-
+      
+      <TouchableOpacity
+        style={ styles.blueBtn }
+        onPress={()=>{dispatch(loading ? hideLoading() : showLoading())}}
+      >
+        <Text style={{textAlign: 'center', color: 'white'}}>{loading ? 'Loading' : 'NO'}</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity
+        style={ styles.blueBtn }
+        onPress={()=>{dispatch(fetchRecords())}}
+      >
+        <Text style={{textAlign: 'center', color: 'white'}}>fetch Records</Text>
+      </TouchableOpacity>
+      
       <Text>{JSON.stringify(audio, null, 4)}</Text>
       
     </View>

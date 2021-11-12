@@ -1,13 +1,11 @@
-import { firebaseReducer } from 'react-redux-firebase'
-import { firestoreReducer } from 'redux-firestore'
-import { combineReducers } from 'redux'
+import { combineReducers } from '@reduxjs/toolkit';
 
 import loading from './reducers/loadingReducer'
+import records from './reducers/recordsReducer'
 
 const rootReducer = combineReducers ({
-  firebase: firebaseReducer,
-  firestore: firestoreReducer,
-  loading
+  loading,
+  records
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
