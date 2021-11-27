@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit"
 
 export interface LoadingState {
-  loading: boolean;
+  loading: boolean
 }
 
 const initialState: LoadingState = {
   loading: false
-};
+}
 
 const loadingSlice = createSlice({
   name: 'loading',
@@ -19,7 +19,7 @@ const loadingSlice = createSlice({
       state.loading = true
     },
   }
-});
+})
 
 export default loadingSlice.reducer
-export const { hideLoading, showLoading } = loadingSlice.actions;
+export const { hideLoading, showLoading } = loadingSlice.actions

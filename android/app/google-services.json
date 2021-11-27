@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "475895040261",
+    "firebase_url": "https://diary-book-94707.firebaseio.com",
+    "project_id": "diary-book-94707",
+    "storage_bucket": "diary-book-94707.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:475895040261:android:872d2ef6f828daeacc8f6c",
+        "android_client_info": {
+          "package_name": "com.records"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "475895040261-6g9qpe2oqrdvl9roho4df7j6rs3bs8rq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA91oERYmhOAaNbQ3iTX6p_6iLV-QD-3TM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "475895040261-6g9qpe2oqrdvl9roho4df7j6rs3bs8rq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

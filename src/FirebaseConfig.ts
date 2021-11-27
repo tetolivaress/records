@@ -1,5 +1,4 @@
 
-import firebase from 'firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 import {
   REACT_APP_APIKEY,
@@ -11,6 +10,7 @@ import {
   REACT_APP_APPID,
   REACT_APP_MEASUREMENTID,
 } from "@env"
+import RNFirebase from 'react-native-firebase'
 
 
 const fbConfig = {
@@ -30,7 +30,7 @@ const rrfConfig = {
 }
 
 const rrfProps = store => ({
-  firebase,
+  firebase: RNFirebase,
   config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance

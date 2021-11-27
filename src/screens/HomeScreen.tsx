@@ -5,14 +5,16 @@ import { useNavigation } from '@react-navigation/native';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 
 import { useStoreSelector, useStoreDispatch } from '../store'
-import {hideLoading, showLoading } from '../store/reducers/loadingReducer'
-import { fetchRecords } from '../store/reducers/recordsReducer'
+import {hideLoading, showLoading } from '../store/slices/loadingSlice'
+import { fetchRecords } from '../store/slices/recordsSlice'
+import { fetchPeople } from '../store/slices/peopleSlice'
 
 const HomeScreen = () => {
 
   const loading = useStoreSelector(( store ) => store.loading.loading)
 
   const dispatch = useStoreDispatch();
+  const records  = useStoreSelector(({records}) => records)
 
   const navigator = useNavigation();
   const [player, setPlayer] = useState({});
@@ -103,9 +105,23 @@ const HomeScreen = () => {
       
       <TouchableOpacity
         style={ styles.blueBtn }
-        onPress={()=>{dispatch(fetchRecords())}}
+        onPress={()=>{dispatch(fetchRecords("MMlo"))}}
       >
         <Text style={{textAlign: 'center', color: 'white'}}>fetch Records</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity
+        style={ styles.blueBtn }
+        onPress={()=>{dispatch(fetchPeople("MMlo"))}}
+      >
+        <Text style={{textAlign: 'center', color: 'white'}}>fetch PEOPLE</Text>
+      </TouchableOpacity>
+      
+      <TouchableOpacity
+        style={ styles.blueBtn }
+        onPress={()=>console.log(records)}
+      >
+        <Text style={{textAlign: 'center', color: 'white'}}>show store</Text>
       </TouchableOpacity>
       
       <Text>{JSON.stringify(audio, null, 4)}</Text>

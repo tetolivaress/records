@@ -1,34 +1,27 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
-import { getFirebase } from 'react-redux-firebase';
 
 export interface RecordsState {
   hashtag: string,
   file: any
+  data: any,
 }
 
-const initialState: RecordsState[] = [
+const initialState: RecordsState = 
   {
     hashtag: '',
-    file: null
-  },
-  {
-    hashtag: 'wwwwwwww',
-    file: null
+    file: null,
+    data: [],
   }
-]
 
 export const fetchRecords = createAsyncThunk<any>(
-  'records/set',
+  'records/get',
   async (_, { extra }) => {
     const records: any[] = []
-    console.log(extra)
     const recordsReponse = await extra.getFirebase()
       .firestore()
-      .collection('people')
+      .collection('records')
       .get()
-
-      recordsReponse.docs.forEach(async (doc: any) => records.push(doc.data()))
-    console.log(records)
+    recordsReponse.docs.forEach(async (doc: any) => records.push(doc.data()))
     return records
   }
 )
@@ -39,7 +32,14 @@ const recordsSlice = createSlice({
   reducers: {},
   extraReducers: buider => {
     buider.addCase(fetchRecords.fulfilled, (state, action) => {
-      console.log(state, action)
+      console.log('ready')
+      state.data = action.payload
+    }),
+    buider.addCase(fetchRecords.pending, () => {
+      console.log('pending')
+    }),
+    buider.addCase(fetchRecords.rejected, () => {
+      console.log('rejected')
     })
   }
 })

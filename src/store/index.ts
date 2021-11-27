@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import Logger from 'redux-logger'
 import { configureStore } from '@reduxjs/toolkit';
 import rootReducer from './rootReducer';
 import {
@@ -9,6 +10,7 @@ import { constants as rfConstants } from 'redux-firestore'
 
 const store = configureStore({
   reducer: rootReducer,
+  devTools: false,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
@@ -28,7 +30,7 @@ const store = configureStore({
           getFirebase,
         },
       },
-    }),
+    }).concat(Logger),
 })
 
 export type StoreDispatch = typeof store.dispatch;
