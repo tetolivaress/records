@@ -106,22 +106,18 @@ const HashTagsScreen = () => {
             <Text style={{color: '#fff'}}>{audio?.recordSecs}</Text>
             {toggleRecordAudioIcon}
           </TouchableOpacity>
-          {
-            isRecording || audio.recordSecs && (
-              <TouchableOpacity
+          <TouchableOpacity
                 onPress={onStartPlay}
                 style={{
                   backgroundColor: '#000',
                   marginLeft: 6              
                 }}
+                disabled={isRecording || !audio.recordSecs}
               >
                 <Text style={{textAlign: 'center', color: 'white'}}>
                   Play
                 </Text>
-              </TouchableOpacity>
-
-            )
-          }
+          </TouchableOpacity>
         </View>
 
         <Text>{JSON.stringify(audio, null, 4)}</Text>
