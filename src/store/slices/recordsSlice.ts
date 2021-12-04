@@ -1,17 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
-export interface RecordsState {
-  hashtag: string,
-  file: any
-  data: any,
+export type RecordsState = {
+  data: any[]
 }
 
-const initialState: RecordsState = 
-  {
-    hashtag: '',
-    file: null,
-    data: [],
-  }
+const initialState: RecordsState = {
+  data: [],
+}
 
 export const fetchRecords = createAsyncThunk<any>(
   'records/get',

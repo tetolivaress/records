@@ -1,21 +1,28 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
-import HashTagsScreen from '../screens/HashTagsScreen';
+import CreateRecordScreen from '../screens/CreateRecordScreen';
 
 
 export type RootStackParams = {
   HomeScreen: undefined,
-  HashTagsScreen: undefined
+  CreateRecordScreen: undefined
 }
 
 const Stack = createStackNavigator<RootStackParams>();
 
 export const StackNavigator = () => {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+        cardStyle: {
+          backgroundColor: 'white'
+        }
+      }}
+    >
       <Stack.Screen name="HomeScreen" options={{ title:"My Screen" }} component={ HomeScreen } />
-      <Stack.Screen name="HashTagsScreen" options={{ title:"hashes" }} component={ HashTagsScreen } />
+      <Stack.Screen name="CreateRecordScreen" options={{ title:"records" }} component={ CreateRecordScreen } />
     </Stack.Navigator>
   )
 }

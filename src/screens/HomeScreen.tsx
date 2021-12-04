@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Text, TouchableOpacity, View, StyleSheet, PermissionsAndroid, Alert } from "react-native";
+import { Text, TouchableOpacity, View, StyleSheet, PermissionsAndroid, Alert, StatusBar, SafeAreaView } from "react-native";
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import { useNavigation } from '@react-navigation/native';
 import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
@@ -66,67 +66,73 @@ const HomeScreen = () => {
   }, []);
   
   return (
-    <View style={{flex: 1}}>
-      <Text>Esta es la pantalla de Home</Text>
-      <TouchableOpacity
-        style={ styles.btn }
-        onPress={()=>navigator.navigate('HashTagsScreen')}
-      >
-        <Text style={{textAlign: 'center'}}>Go to hashtags</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        style={ styles.blueBtn }
-        onPress={onStartRecord}
-      >
-        <Text style={{textAlign: 'center', color: 'white'}}>Start</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        style={ styles.blueBtn }
-        onPress={onStopRecord }
-      >
-        <Text style={{textAlign: 'center', color: 'white'}}>Stop</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        style={ styles.blueBtn }
-        onPress={onStartPlay }
-      >
-        <Text style={{textAlign: 'center', color: 'white'}}>PLAY</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        style={ styles.blueBtn }
-        onPress={()=>{dispatch(loading ? hideLoading() : showLoading())}}
-      >
-        <Text style={{textAlign: 'center', color: 'white'}}>{loading ? 'Loading' : 'NO'}</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        style={ styles.blueBtn }
-        onPress={()=>{dispatch(fetchRecords("MMlo"))}}
-      >
-        <Text style={{textAlign: 'center', color: 'white'}}>fetch Records</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        style={ styles.blueBtn }
-        onPress={()=>{dispatch(fetchPeople("MMlo"))}}
-      >
-        <Text style={{textAlign: 'center', color: 'white'}}>fetch PEOPLE</Text>
-      </TouchableOpacity>
-      
-      <TouchableOpacity
-        style={ styles.blueBtn }
-        onPress={()=>console.log(records)}
-      >
-        <Text style={{textAlign: 'center', color: 'white'}}>show store</Text>
-      </TouchableOpacity>
-      
-      <Text>{JSON.stringify(audio, null, 4)}</Text>
-      
-    </View>
+    <SafeAreaView style={{
+      flex: 1,
+      justifyContent: 'center'
+    }}>
+      <StatusBar hidden={true} backgroundColor="#61dafb"/>
+      <View style={{flex: 1}}>
+        <Text>Esta es la pantalla de Home</Text>
+        <TouchableOpacity
+          style={ styles.btn }
+          onPress={()=>navigator.navigate('CreateRecordScreen')}
+        >
+          <Text style={{textAlign: 'center'}}>Go to hashtags</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={ styles.blueBtn }
+          onPress={onStartRecord}
+        >
+          <Text style={{textAlign: 'center', color: 'white'}}>Start</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={ styles.blueBtn }
+          onPress={onStopRecord }
+        >
+          <Text style={{textAlign: 'center', color: 'white'}}>Stop</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={ styles.blueBtn }
+          onPress={onStartPlay }
+        >
+          <Text style={{textAlign: 'center', color: 'white'}}>PLAY</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={ styles.blueBtn }
+          onPress={()=>{dispatch(loading ? hideLoading() : showLoading())}}
+        >
+          <Text style={{textAlign: 'center', color: 'white'}}>{loading ? 'Loading' : 'NO'}</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={ styles.blueBtn }
+          onPress={()=>{dispatch(fetchRecords("MMlo"))}}
+        >
+          <Text style={{textAlign: 'center', color: 'white'}}>fetch Records</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={ styles.blueBtn }
+          onPress={()=>{dispatch(fetchPeople("MMlo"))}}
+        >
+          <Text style={{textAlign: 'center', color: 'white'}}>fetch PEOPLE</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity
+          style={ styles.blueBtn }
+          onPress={()=>console.log(records)}
+        >
+          <Text style={{textAlign: 'center', color: 'white'}}>show store</Text>
+        </TouchableOpacity>
+        
+        <Text>{JSON.stringify(audio, null, 4)}</Text>
+        
+      </View>
+    </SafeAreaView>
   )
 }
 

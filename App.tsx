@@ -12,13 +12,13 @@ import { fbConfig, rrfProps }  from './src/FirebaseConfig'
 firebase.apps.length || firebase.initializeApp(fbConfig)
 
 const App = () =>  (
-  <Provider store={store}>    
-    <ReactReduxFirebaseProvider {...rrfProps(store)}>
-      <NavigationContainer>
-        <DrawerNavigator />
-      </NavigationContainer>
-    </ReactReduxFirebaseProvider>
-  </Provider>
+    <Provider store={store}>    
+      <ReactReduxFirebaseProvider {...rrfProps(store)}>
+        <NavigationContainer>
+          <DrawerNavigator />
+        </NavigationContainer>
+      </ReactReduxFirebaseProvider>
+    </Provider>
 )
 
 export default App
