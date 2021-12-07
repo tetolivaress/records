@@ -1,5 +1,5 @@
 import React from "react";
-import { ActivityIndicator, Image, Text, View, TextInput, TouchableOpacity } from "react-native";
+import { ActivityIndicator, Image, Text, View, TextInput, TouchableOpacity, TouchableOpacityBase, Alert } from "react-native";
 import { useEffect, useState } from 'react';
 import movieDB from "../api/movieDB";
 import { Movie, MovieDBNowPlaying } from '../interfaces/movie';
@@ -7,6 +7,8 @@ import { ScrollView } from "react-native-gesture-handler";
 import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import MicIcon from "react-native-bootstrap-icons/icons/mic";
 import StopCircle from "react-native-bootstrap-icons/icons/stop-circle";
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import * as RNFS from 'react-native-fs';
 
 const HashTagsScreen = () => {
 
@@ -15,6 +17,7 @@ const HashTagsScreen = () => {
   const [player, setPlayer] = useState({});
   const [audio, setAudio] = useState({});
   const [isRecording, setIsRecording] = useState(false);
+  const [image, setImage] = useState(null);
   
   const [state, setstate] = useState<Movie[]>([])
   useEffect(()=>{
@@ -26,7 +29,7 @@ const HashTagsScreen = () => {
     //   });
 
     setPlayer(new AudioRecorderPlayer());
-    return () => stopSound();
+    //return () => stopSound();
 
   },[]);
   
@@ -72,10 +75,17 @@ const HashTagsScreen = () => {
     });
   }; 
 
+  const getImage = async () => await launchCamera({
+    maxHeight: 400
+  }, (img) => {
+    setImage(img.assets[0].uri);
+    console.log(image);
+  })
+
   const toggleRecordAudio = isRecording ? onStopRecord : onStartRecord
   const toggleRecordAudioIcon = isRecording
-    ? <StopCircle width="50" height="50" fill="rgb(189, 189, 189)" />
-    : <MicIcon width="50" height="50" fill="rgb(189, 189, 189)" />
+    ? <StopCircle width="50" height="50" viewBox="0 0 16 16" fill="rgb(199, 0, 0)" />
+    : <MicIcon width="50" height="50" viewBox="0 0 16 16" fill="rgb(199, 0, 0)" />
 
   return (
     <>
@@ -98,9 +108,9 @@ const HashTagsScreen = () => {
             style={{
               backgroundColor: '#000',
               flex: 1,
+              alignItems: 'center',
               justifyContent: 'center',
-              alignItems: 'center'
-            
+              flexDirection: 'row'            
             }}
           >
             <Text style={{color: '#fff'}}>{audio?.recordSecs}</Text>
@@ -110,7 +120,7 @@ const HashTagsScreen = () => {
                 onPress={onStartPlay}
                 style={{
                   backgroundColor: '#000',
-                  marginLeft: 6              
+                  marginLeft: 6
                 }}
                 disabled={isRecording || !audio.recordSecs}
               >
@@ -119,6 +129,18 @@ const HashTagsScreen = () => {
                 </Text>
           </TouchableOpacity>
         </View>
+
+        <TouchableOpacity
+          onPress={getImage}
+          style={{
+            backgroundColor: '#000',
+            marginLeft: 6
+          }}
+        >
+          <Text style={{textAlign: 'center', color: 'white'}}>
+            getImage
+          </Text>
+        </TouchableOpacity>
 
         <Text>{JSON.stringify(audio, null, 4)}</Text>
         
