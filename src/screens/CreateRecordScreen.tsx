@@ -1,6 +1,6 @@
 import React from "react";
 import { ActivityIndicator, Image, Text, View, TextInput, TouchableOpacity, TouchableOpacityBase, Alert } from "react-native";
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import movieDB from "../api/movieDB";
 import { Movie, MovieDBNowPlaying } from '../interfaces/movie';
 import { ScrollView } from "react-native-gesture-handler";
@@ -8,16 +8,28 @@ import AudioRecorderPlayer from 'react-native-audio-recorder-player';
 import MicIcon from "react-native-bootstrap-icons/icons/mic";
 import StopCircle from "react-native-bootstrap-icons/icons/stop-circle";
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import ColorPicker from 'react-native-wheel-color-picker';
+import Tooltip from 'react-native-walkthrough-tooltip';
 import * as RNFS from 'react-native-fs';
+import { sendCompleteRecord } from '../store/slices/recordsSlice'
+import { useStoreSelector, useStoreDispatch } from '../store'
 
 const HashTagsScreen = () => {
+  
+  const dispatch = useStoreDispatch();
 
-  const [hashtag, setHashtag] = useState('');
+  const [hashtag, setHashtag] = useState('hashtag');
   
   const [player, setPlayer] = useState({});
   const [audio, setAudio] = useState({});
   const [isRecording, setIsRecording] = useState(false);
   const [image, setImage] = useState(null);
+  const [selectedColor, setSelectedColor] = useState('#00FF00');
+  const [showColorPicker, setShowColorPicker] = useState(false)
+  const [recordPath, setRecordPath] = useState(false)
+
+  const pickerRef = useRef(null);
+
   
   const [state, setstate] = useState<Movie[]>([])
   useEffect(()=>{
@@ -54,15 +66,14 @@ const HashTagsScreen = () => {
 
   const onStopRecord = async () => {
     const result = await player.stopRecorder();
+    setRecordPath(result)
     player.removeRecordBackListener();
     setIsRecording(false)
-    console.log(result);
   };
 
   const onStartPlay = async () => {
     console.log('onStartPlay');
-    const msg = await player.startPlayer();
-    console.log(msg);
+    await player.startPlayer();
     player.addPlayBackListener((e) => {
       setAudio({
         ...audio,
@@ -75,11 +86,19 @@ const HashTagsScreen = () => {
     });
   }; 
 
-  const getImage = async () => await launchCamera({
-    maxHeight: 400
+  const sendRecord = async () => {
+    const b64Audio = await RNFS.readFile(recordPath, 'base64')
+    //const b64Image = await RNFS.readFile(image, 'base64')
+
+    dispatch(sendCompleteRecord({ b64Audio, b64Image: image, hashtag, selectedColor }))
+  }
+
+  const getImage = async () => await launchImageLibrary({
+    maxHeight: 500
   }, (img) => {
-    setImage(img.assets[0].uri);
-    console.log(image);
+    if (img.didCancel) return console.log('did Cancel');
+    setImage(img.assets[0].uri?.toString());
+    console.log(img);
   })
 
   const toggleRecordAudio = isRecording ? onStopRecord : onStartRecord
@@ -88,78 +107,140 @@ const HashTagsScreen = () => {
     : <MicIcon width="50" height="50" viewBox="0 0 16 16" fill="rgb(199, 0, 0)" />
 
   return (
-    <>
-      <ScrollView>
-        <TextInput
-          placeholder="hashtag"
-          value={hashtag}
-          onChangeText={(value) => setHashtag(value)}
-        />
-        <View
-          style={{
-            margin: 12,
-            flexDirection: 'row',
-            flex: 1,
-            justifyContent: 'space-between'
-          }}
-        >
-          <TouchableOpacity
-            onPress={toggleRecordAudio}
-            style={{
-              backgroundColor: '#000',
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'row'            
-            }}
-          >
-            <Text style={{color: '#fff'}}>{audio?.recordSecs}</Text>
-            {toggleRecordAudioIcon}
-          </TouchableOpacity>
-          <TouchableOpacity
-                onPress={onStartPlay}
-                style={{
-                  backgroundColor: '#000',
-                  marginLeft: 6
-                }}
-                disabled={isRecording || !audio.recordSecs}
-              >
-                <Text style={{textAlign: 'center', color: 'white'}}>
-                  Play
-                </Text>
-          </TouchableOpacity>
-        </View>
-
+    <ScrollView>
+      <TextInput
+        placeholder="hashtag"
+        value={hashtag}
+        onChangeText={(value) => setHashtag(value)}
+      />
+      <View
+        style={{
+          margin: 12,
+          flexDirection: 'row',
+          flex: 1,
+          justifyContent: 'space-between'
+        }}
+      >
         <TouchableOpacity
-          onPress={getImage}
+          onPress={toggleRecordAudio}
           style={{
             backgroundColor: '#000',
-            marginLeft: 6
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'row'            
           }}
         >
-          <Text style={{textAlign: 'center', color: 'white'}}>
-            getImage
-          </Text>
+          <Text style={{color: '#fff'}}>{audio?.recordSecs}</Text>
+          {toggleRecordAudioIcon}
         </TouchableOpacity>
+        <TouchableOpacity
+              onPress={onStartPlay}
+              style={{
+                backgroundColor: '#000',
+                marginLeft: 6
+              }}
+              disabled={isRecording || !audio.recordSecs}
+            >
+              <Text style={{textAlign: 'center', color: 'white'}}>
+                Play
+              </Text>
+        </TouchableOpacity>
+      </View>
 
-        <Text>{JSON.stringify(audio, null, 4)}</Text>
-        
-        {/*         
-          {
-            state
-              ? state.map((item: Movie) => (
-                <View style={{elevation: 5, marginVertical: 25, backgroundColor: 'azure'}} key={item.id.toString()}>
-                  <Text key={item.id.toString()} style={{fontSize: 18, padding: 12}}>{item.title}</Text>
-                  <Image
-                    source={{uri: 'https://image.tmdb.org/t/p/w500' + item.poster_path}}
-                    style={{width: 100, height: 100, alignSelf: 'flex-end', margin: 20}}
-                  />
-                </View>
-                ))
-              : <ActivityIndicator size={80} color='#e3e3e3' />
-          } */}
-      </ScrollView>
-    </>
+      <TouchableOpacity
+        onPress={getImage}
+        style={{
+          backgroundColor: '#000',
+          marginLeft: 6,
+          marginVertical: 6
+        }}
+      >
+        <Text style={{textAlign: 'center', color: 'white'}}>
+          getImage
+        </Text>
+      </TouchableOpacity>
+      
+      <Tooltip
+        isVisible={showColorPicker}
+        onClose={()=>setShowColorPicker(false)}
+        contentStyle={{
+          height: 400
+        }}
+        placement="bottom"
+        content={
+          <>
+            <ColorPicker
+              thumbSize={50}
+              sliderSize={20}
+              noSnap={true}
+              row={false}
+              onColorChangeComplete={(color: string) => setSelectedColor(color)}
+              onPress
+            />
+            <TouchableOpacity
+              onPress={()=>setShowColorPicker(false)}
+              style={{
+                backgroundColor: '#000',
+                marginVertical: 12,
+                justifyContent: 'center'
+              }}
+            >
+              <Text style={{color: '#fff', textAlign: 'center'}}>Seleccionar</Text>
+            </TouchableOpacity>
+          </>
+        }
+      >
+        <TouchableOpacity
+          onPress={()=>setShowColorPicker(true)}
+          style={{backgroundColor: '#000'}}
+        >
+          <Text style={{color: '#fff'}}>ShowColorPicker</Text>
+        </TouchableOpacity>
+      </Tooltip>
+
+      <Text>{JSON.stringify(audio, null, 4)}</Text>
+      <Text>{selectedColor}</Text>
+
+      {
+        image && (
+          <Image
+            source={{uri: image}}
+            style={{width: 100, height: 100, alignSelf: 'flex-end', margin: 20}}
+          />
+        )
+      }
+
+      <TouchableOpacity
+        onPress={sendRecord}
+        style={{
+          margin: 6,
+          backgroundColor: '#00FF00'
+        }}
+      >
+        <Text style={{color: '#000'}}>Enviar Audio</Text>
+      </TouchableOpacity>
+      
+      {/*         
+        {
+          state
+            ? state.map((item: Movie) => (
+              <View style={{elevation: 5, marginVertical: 25, backgroundColor: 'azure'}} key={item.id.toString()}>
+                <Text key={item.id.toString()} style={{fontSize: 18, padding: 12}}>{item.title}</Text>
+                <Image
+                  source={{uri: 'https://image.tmdb.org/t/p/w500' + item.poster_path}}
+                  style={{width: 100, height: 100, alignSelf: 'flex-end', margin: 20}}
+                />
+              </View>
+              ))
+            : <ActivityIndicator size={80} color='#e3e3e3' />
+        }
+      */}
+      <View style={{width:200, backgroundColor: "#000"}}>
+        <Text style={{color:'#FFF'}}>{image}</Text>
+      </View>
+
+    </ScrollView>
   );
 }
 

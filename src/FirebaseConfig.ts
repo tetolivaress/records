@@ -11,6 +11,8 @@ import {
   REACT_APP_MEASUREMENTID,
 } from "@env"
 import RNFirebase from 'react-native-firebase'
+import 'firebase/auth'
+import 'firebase/storage'
 
 
 const fbConfig = {
@@ -33,7 +35,7 @@ const rrfProps = store => ({
   firebase: RNFirebase,
   config: rrfConfig,
   dispatch: store.dispatch,
-  createFirestoreInstance
+  createFirestoreInstance,
 })
 
 export {
