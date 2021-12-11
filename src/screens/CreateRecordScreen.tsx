@@ -13,6 +13,7 @@ import Tooltip from 'react-native-walkthrough-tooltip';
 import * as RNFS from 'react-native-fs';
 import { sendCompleteRecord } from '../store/slices/recordsSlice'
 import { useStoreSelector, useStoreDispatch } from '../store'
+import { useNavigation } from '@react-navigation/native';
 
 const HashTagsScreen = () => {
   
@@ -29,8 +30,9 @@ const HashTagsScreen = () => {
   const [recordPath, setRecordPath] = useState(false)
 
   const pickerRef = useRef(null);
-
+  const navigator = useNavigation();
   
+
   const [state, setstate] = useState<Movie[]>([])
   useEffect(()=>{
 
@@ -90,7 +92,9 @@ const HashTagsScreen = () => {
     const b64Audio = recordPath
     const b64Image = image
 
-    dispatch(sendCompleteRecord({ b64Audio, b64Image, hashtag, selectedColor }))
+    await dispatch(sendCompleteRecord({ b64Audio, b64Image, hashtag, selectedColor }))
+
+    navigator.goBack()
   }
 
   const getImage = async () => await launchImageLibrary({

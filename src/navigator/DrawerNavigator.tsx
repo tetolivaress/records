@@ -14,8 +14,8 @@ export const DrawerNavigator = () => {
     <Drawer.Navigator
       drawerType={ width >= 768 ? 'permanent' : 'front' }
     >
-      <Drawer.Screen name="CreateRecordScreen" component={CreateRecordScreen} />
       <Drawer.Screen name="StackNavigator" component={StackNavigator} />
+      <Drawer.Screen name="CreateRecordScreen" component={CreateRecordScreen} />
       <Drawer.Screen name="RecordsScreen" component={RecordsScreen} />
     </Drawer.Navigator>
   )
