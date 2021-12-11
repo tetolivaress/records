@@ -87,10 +87,10 @@ const HashTagsScreen = () => {
   }; 
 
   const sendRecord = async () => {
-    const b64Audio = await RNFS.readFile(recordPath, 'base64')
-    //const b64Image = await RNFS.readFile(image, 'base64')
+    const b64Audio = recordPath
+    const b64Image = image
 
-    dispatch(sendCompleteRecord({ b64Audio, b64Image: image, hashtag, selectedColor }))
+    dispatch(sendCompleteRecord({ b64Audio, b64Image, hashtag, selectedColor }))
   }
 
   const getImage = async () => await launchImageLibrary({
@@ -238,6 +238,9 @@ const HashTagsScreen = () => {
       */}
       <View style={{width:200, backgroundColor: "#000"}}>
         <Text style={{color:'#FFF'}}>{image}</Text>
+      </View>
+      <View style={{width:200, backgroundColor: "#000", marginVertical: 20}}>
+        <Text style={{color:'#FFF'}}>{recordPath}</Text>
       </View>
 
     </ScrollView>

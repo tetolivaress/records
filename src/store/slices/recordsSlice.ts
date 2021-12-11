@@ -37,42 +37,40 @@ export const fetchRecords = createAsyncThunk<any>(
 
 export const sendCompleteRecord = createAsyncThunk<any>(
   'records/set',
-  async (record, { extra }) => {
+  async (record, { extra: { getFirebase } }) => {
     //console.log(record)
     const records: any[] = []
     console.log(record)
 
 
     try {
-      let storageRef = await extra.getFirebase().storage().ref('record')
-      console.log(1)
-
-      const imageTask = await storageRef.putFile(record.b64Image)
-      console.log(4)
-  
-      const imagePath = await imageTask.task.snapshot.ref.getDownloadURL()
-      console.log(5)
-
-      const file = dataURLtoFile('data:audio/mpeg;base64,' + record.b64Audio, 'jeje.mp4')
-
-      const audioTask = await storageRef.putFile(file)
-      console.log(2)
-  
-      const audioPath = await audioTask.task.snapshot.ref.getDownloadURL()
-      console.log(3)
-  
+      const recordsRef = await getFirebase().storage().ref(`records/${new Date()}.mp4`)
+      const audioTask = await recordsRef.putFile(record.b64Audio)
       
-      return { audioPath, imagePath }
+      const imagesRef = await getFirebase().storage().ref(`recordImages/${new Date()}.jpg`)
+      const imageTask = await imagesRef.putFile(record.b64Image)
+
+      await getFirebase().firestore().collection('records').add({
+        color: record.selectedColor,
+        record: audioTask.downloadURL || '',
+        image: imageTask.downloadURL,
+        hashtag: record.hashtag,
+        lidek: 0,
+        disliked: 0
+      })
+
+      const recordsReponse = await getFirebase()
+        .firestore()
+        .collection('records')
+        .get()
+
+      recordsReponse.docs.forEach(async (doc: any) => records.push(doc.data()))
+      
+      return records
 
     } catch (error) {
       console.log(error)
     }
-
-    // const recordsReponse = await getFirebase()
-    //   .firestore()
-    //   .collection('records')
-    //   .get()
-    // recordsReponse.docs.forEach(async (doc: any) => records.push(doc.data()))
   }
 )
 
