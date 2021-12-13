@@ -55,7 +55,7 @@ export const sendCompleteRecord = createAsyncThunk<any>(
         record: audioTask.downloadURL || '',
         image: imageTask.downloadURL,
         hashtag: record.hashtag,
-        lidek: 0,
+        liked: 0,
         disliked: 0
       })
 
@@ -89,9 +89,9 @@ const recordsSlice = createSlice({
     buider.addCase(fetchRecords.rejected, () => {
       console.log('rejected')
     }),
+    
     buider.addCase(sendCompleteRecord.fulfilled, (state, action) => {
-      console.log('ready')
-      console.log(action.payload)
+      state.data = action.payload
     }),
     buider.addCase(sendCompleteRecord.pending, () => {
       console.log('pending')

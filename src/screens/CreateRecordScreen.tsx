@@ -35,13 +35,7 @@ const HashTagsScreen = () => {
 
   const [state, setstate] = useState<Movie[]>([])
   useEffect(()=>{
-
-    // movieDB.get<MovieDBNowPlaying>('/now_playing')
-    //   .then( res => {
-    //     console.log(JSON.stringify(res.data, null, 3));
-    //     setstate(res.data.results)
-    //   });
-
+    
     setPlayer(new AudioRecorderPlayer());
     //return () => stopSound();
 

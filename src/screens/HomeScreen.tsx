@@ -7,7 +7,7 @@ import { isLoaded, useFirestoreConnect } from 'react-redux-firebase'
 import { useStoreSelector, useStoreDispatch } from '../store'
 import {hideLoading, showLoading } from '../store/slices/loadingSlice'
 import { fetchRecords } from '../store/slices/recordsSlice'
-import { fetchPeople } from '../store/slices/peopleSlice'
+import { fetchPeople } from '../store/slices/MoviesSlice'
 
 const HomeScreen = () => {
 
@@ -62,7 +62,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     setPlayer(new AudioRecorderPlayer());
-    return () => stopSound();
+    //return () => stopSound();
   }, []);
   
   return (
@@ -78,6 +78,12 @@ const HomeScreen = () => {
           onPress={()=>navigator.navigate('CreateRecordScreen')}
         >
           <Text style={{textAlign: 'center'}}>Go to hashtags</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={ styles.btn }
+          onPress={()=>navigator.navigate('MoviesScreen')}
+        >
+          <Text style={{textAlign: 'center'}}>Go to MOVIES</Text>
         </TouchableOpacity>
         
         <TouchableOpacity

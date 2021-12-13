@@ -4,6 +4,7 @@ import { useWindowDimensions } from 'react-native';
 import { StackNavigator } from './StackNavigator';
 import CreateRecordScreen from '../screens/CreateRecordScreen';
 import RecordsScreen from '../screens/RecordsScreen';
+import MoviesScreen from '../screens/MoviesScreen';
 
 const Drawer = createDrawerNavigator();
 
@@ -17,6 +18,7 @@ export const DrawerNavigator = () => {
       <Drawer.Screen name="StackNavigator" component={StackNavigator} />
       <Drawer.Screen name="CreateRecordScreen" component={CreateRecordScreen} />
       <Drawer.Screen name="RecordsScreen" component={RecordsScreen} />
+      <Drawer.Screen name="MoviesScreen" component={MoviesScreen} />
     </Drawer.Navigator>
   )
 }
