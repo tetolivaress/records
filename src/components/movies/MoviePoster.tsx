@@ -1,6 +1,8 @@
 import React from 'react'
-import { View, Text, Image, StyleSheet } from 'react-native';
+import { View, Text, Image, StyleSheet, } from 'react-native';
 import { Movie } from '../../interfaces/movie';
+import { useNavigation } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface Props {
   movie: Movie;
@@ -11,9 +13,13 @@ interface Props {
 const MoviePoster = ({ movie, height = 420, width = 300 }: Props) => {
 
   const uri = `https://image.tmdb.org/t/p/w500/${movie.poster_path}`
+  const navigation = useNavigation();
 
   return (
-    <View style={{ height, width }}>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('DetailScreen', movie)}
+      style={[styles.imageContainer, { height, width }]}
+    >
       <View
         style={ styles.imageContainer }
       >
@@ -22,7 +28,7 @@ const MoviePoster = ({ movie, height = 420, width = 300 }: Props) => {
           style={ styles.image }
         />
       </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -36,13 +42,12 @@ const styles = StyleSheet.create({
   imageContainer: {
     flex: 1,
     shadowColor: '#171717',
-    shadowOffset: {width: -2, height: 4},
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 12,
-  },
-  container: {
-    width: 300,
-    height: 420,
+    shadowOffset: {width: -2, height: 19},
+    shadowOpacity: 0.9,
+    shadowRadius: 112,
+    elevation: 18,
+    margin: 6,
+    backgroundColor: 'rgba(0,0,0,0)',
+    overflow: 'hidden'
   }
 })

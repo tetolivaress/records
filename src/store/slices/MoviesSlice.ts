@@ -1,19 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 
-export interface PeopleState {
-  hashtag: string,
-  file: any
-  data: any,
+export interface MoviesState {
+  movieColors: object;
 }
 
-const initialState: PeopleState = 
+const initialState: MoviesState = 
   {
-    hashtag: '',
-    file: null,
-    data: [],
+    movieColors: {
+      primary: 'transparent',
+      secondary: 'transparent'
+    }
   }
 
-export const fetchPeople = createAsyncThunk<any>(
+export const fetchMovies = createAsyncThunk<any>(
   'people/get',
   async (_, { extra }) => {
     const people: any[] = []
@@ -26,22 +25,28 @@ export const fetchPeople = createAsyncThunk<any>(
   }
 )
 
-const peopleSlice = createSlice({
+const moviesSlice = createSlice({
   name: 'people',
   initialState,  
-  reducers: {},
+  reducers: {
+    setColors: (state, { payload }) => {
+      state.movieColors = payload
+    },
+  },
   extraReducers: buider => {
-    buider.addCase(fetchPeople.fulfilled, (state, action) => {
+    buider.addCase(fetchMovies.fulfilled, (state, action) => {
       console.log('ready')
-      state.data = action.payload
+      //state.data = action.payload
     }),
-    buider.addCase(fetchPeople.pending, (state, action) => {
+    buider.addCase(fetchMovies.pending, (state, action) => {
       console.log('pending')
     }),
-    buider.addCase(fetchPeople.rejected, (state, action) => {
+    buider.addCase(fetchMovies.rejected, (state, action) => {
       console.log('rejected')
     })
   }
 })
 
-export default peopleSlice.reducer
+export default moviesSlice.reducer
+
+export const { setColors } = moviesSlice.actions
