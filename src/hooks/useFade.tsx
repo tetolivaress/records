@@ -4,21 +4,21 @@ import { Animated } from "react-native";
 const useFade = () => {
   const opacity = useRef(new Animated.Value(0)).current
 
-  const fadeIn = () => {
+  const fadeIn = (callback?: Function) => {
     Animated.timing(
       opacity, {
         toValue: 1,
-        duration: 350,
+        duration: 1000,
         useNativeDriver: true
       }
-    ).start()
+    ).start(() => callback ? callback() : null)
   }
   
   const fadeOut = () => {
     Animated.timing(
       opacity, {
         toValue: 0,
-        duration: 350,
+        duration: 1000,
         useNativeDriver: true
       }
     ).start()
