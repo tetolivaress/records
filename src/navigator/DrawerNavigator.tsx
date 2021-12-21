@@ -1,5 +1,5 @@
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView } from '@react-navigation/drawer';
 import { useWindowDimensions } from 'react-native';
 import { StackNavigator } from './StackNavigator';
 import CreateRecordScreen from '../screens/CreateRecordScreen';
@@ -7,8 +7,10 @@ import RecordsScreen from '../screens/RecordsScreen';
 import MoviesScreen from '../screens/MoviesScreen';
 import DetailScreen from '../screens/DetailScreen';
 import { Movie } from '../interfaces/movie';
+import AndroidTabs from '../navigator/Tabs/AndroidTabs';
 
 export type RootStackParams = {
+  Tabs: undefined;
   MoviesScreen: undefined;
   DetailScreen: Movie;
   StackNavigator: undefined;
@@ -23,8 +25,9 @@ export const DrawerNavigator = () => {
 
   return (
     <Drawer.Navigator
-      drawerType={ width >= 768 ? 'permanent' : 'front' }
+      drawerType={ width >= 1024 ? 'permanent' : 'front' }
     >
+      <Drawer.Screen name='Tabs' component={AndroidTabs} />
       <Drawer.Screen name="MoviesScreen" component={MoviesScreen} />
       <Drawer.Screen name="DetailScreen" component={DetailScreen} />
       <Drawer.Screen name="StackNavigator" component={StackNavigator} />

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Animated } from 'react-native';
 import LinearGradient from "react-native-linear-gradient";
-import { useAppSelector } from '../../hooks/hooks';
+import { useStoreSelector } from '../../store';
 import useFade from "../../hooks/useFade";
-import store from '../../store/index';
 
 interface Props {
   children:  JSX.Element | JSX.Element[];
@@ -15,7 +14,7 @@ const GradientBackground = ({ children }: Props) => {
     primary: 'transparent',
     secondary: 'transparent'
   })
-  const movieColors = useAppSelector(state => state.movies.movieColors)
+  const movieColors = useStoreSelector(state => state.movies.movieColors)
   const { opacity, fadeIn, fadeOut } = useFade()
 
   useEffect(() => {

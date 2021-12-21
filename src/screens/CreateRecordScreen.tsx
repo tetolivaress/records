@@ -12,7 +12,7 @@ import ColorPicker from 'react-native-wheel-color-picker';
 import Tooltip from 'react-native-walkthrough-tooltip';
 import * as RNFS from 'react-native-fs';
 import { sendCompleteRecord } from '../store/slices/recordsSlice'
-import { useStoreSelector, useStoreDispatch } from '../store'
+import { useStoreDispatch } from '../store'
 import { useNavigation } from '@react-navigation/native';
 
 const HashTagsScreen = () => {

@@ -2,14 +2,14 @@ import React, { useEffect } from "react";
 import { ActivityIndicator, Dimensions, View, Text } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { FlatList, ScrollView } from "react-native-gesture-handler";
+import { ScrollView } from "react-native-gesture-handler";
 import ImageColors from "react-native-image-colors";
 import HorizontalSlider from '../components/movies/HorizontalSlider'
 import GradientBackground from '../components/movies/GradientBackground';
 import { useMovies } from '../hooks/useMovies';
 import MoviePoster from '../components/movies/MoviePoster'
 import { setColors } from '../store/slices/MoviesSlice'
-import { useAppDispatch } from '../hooks/hooks';
+import { useStoreDispatch } from '../store';
 
 interface MoviesColors {
   primary: string;
@@ -18,7 +18,7 @@ interface MoviesColors {
 
 const MoviesScreen = () => {
   
-  const dispatch = useAppDispatch()
+  const dispatch = useStoreDispatch()
 
   const {
     nowPlaying,
