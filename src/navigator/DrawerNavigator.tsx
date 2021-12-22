@@ -27,10 +27,9 @@ export const DrawerNavigator = () => {
     <Drawer.Navigator
       drawerType={ width >= 1024 ? 'permanent' : 'front' }
     >
-      <Drawer.Screen name='Tabs' component={AndroidTabs} />
+      <Drawer.Screen name='Tabs' component={AndroidTabs}  options={{title: 'Peliculas'}}/>
       <Drawer.Screen name="MoviesScreen" component={MoviesScreen} />
       <Drawer.Screen name="DetailScreen" component={DetailScreen} />
-      <Drawer.Screen name="StackNavigator" component={StackNavigator} />
       <Drawer.Screen name="CreateRecordScreen" component={CreateRecordScreen} />
       <Drawer.Screen name="RecordsScreen" component={RecordsScreen} />
     </Drawer.Navigator>

@@ -6,9 +6,10 @@ import MoviePoster from './MoviePoster';
 interface Props {
   title?: string;
   movies: Movie[];
+  navigation: any;
 }
 
-const HorizontalSlider = ({ title, movies }: Props) => {
+const HorizontalSlider = ({ title, movies, navigation }: Props) => {
   return (
     <View
       style={{height: 230,}}
@@ -21,6 +22,7 @@ const HorizontalSlider = ({ title, movies }: Props) => {
             movie={item}
             width={140}
             height={200}
+            navigation={navigation}
           />
         )}
         keyExtractor={(item) => item.id.toString()}

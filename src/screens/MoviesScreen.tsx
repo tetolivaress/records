@@ -16,7 +16,7 @@ interface MoviesColors {
   secondary: string;
 }
 
-const MoviesScreen = () => {
+const MoviesScreen = ({navigation}: any) => {
   
   const dispatch = useStoreDispatch()
 
@@ -78,15 +78,15 @@ const MoviesScreen = () => {
             <View>
               <Carousel 
                 data={ nowPlaying }
-                renderItem={({ item }: any ) => <MoviePoster movie={item} />}
+                renderItem={({ item }: any ) => <MoviePoster movie={item} navigation={navigation} />}
                 sliderWidth={windowsWidth}
                 itemWidth={300}
                 onSnapToItem={(i) => getPosterColors(i)}
               />          
-              <HorizontalSlider movies={nowPlaying} title="Poasdasd" />
-              <HorizontalSlider movies={popular} title="XXXXX" />
-              <HorizontalSlider movies={topRated} title="El Mio" />
-              <HorizontalSlider movies={upcoming} title="El Mio" />
+              <HorizontalSlider movies={nowPlaying} title="Poasdasd" navigation={navigation}/>
+              <HorizontalSlider movies={popular} title="XXXXX" navigation={navigation}/>
+              <HorizontalSlider movies={topRated} title="El Mio" navigation={navigation}/>
+              <HorizontalSlider movies={upcoming} title="El Mio" navigation={navigation}/>
             </View>
           </ScrollView>
           )
